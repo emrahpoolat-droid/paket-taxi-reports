@@ -389,6 +389,101 @@
             50% { transform: translateY(-30px); }
         }
 
+        /* Featured Report Card */
+        .report-item.featured {
+            grid-column: 1 / -1;
+            border-left: 5px solid var(--accent);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .featured-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-right: 2px solid var(--border);
+        }
+
+        .featured-content {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .featured-content .report-title {
+            font-size: 18px;
+            margin-bottom: 14px;
+        }
+
+        .featured-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .featured-metric {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        .featured-metric .val {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .featured-metric .lbl {
+            font-size: 11px;
+            color: var(--gray);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .featured-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding: 12px 22px;
+            background: var(--primary);
+            color: var(--secondary);
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .featured-link:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(255, 107, 53, 0.3);
+        }
+
+        @media (max-width: 900px) {
+            .featured-inner {
+                grid-template-columns: 1fr;
+            }
+            .featured-image {
+                max-height: 280px;
+                border-right: none;
+                border-bottom: 2px solid var(--border);
+            }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             header {
@@ -562,9 +657,45 @@
                 <div class="report-title">Yakıt Tüketim Analizi</div>
                 <div class="report-desc">Yakıt alım süreçlerini, maliyet ve anomali durumlarını analiz ederek operasyonel verimliliğin izlenmesini sağlar.</div>
             </div>
-            <div class="report-item">
-                <div class="report-title">Filo Dashboard</div>
-                <div class="report-desc">Kurye araç filosuna ait aktif/pasif araçların, hasar olanların ve sahiplerinin durumunu gösterir.</div>
+            <div class="report-item featured">
+                <div class="featured-inner">
+                    <img src="images/filo-takip-raporu.png" alt="Filo Takip Dashboard Önizleme" class="featured-image" />
+                    <div class="featured-content">
+                        <div>
+                            <div class="report-title">Filo Takip Dashboard</div>
+                            <div class="report-desc">Kurye araç filosuna ait güncel kira durumu, aktif/pasif araç dağılımı, şehir bazlı araç sayıları ve araç listesini detaylı olarak gösterir. Kiralık ve personel araçlarını, sorunlu ve devredilecek araçları ile ortalama kilometre bilgisini tek ekranda sunar.</div>
+                            <div class="featured-metrics">
+                                <div class="featured-metric">
+                                    <div class="val">9.999</div>
+                                    <div class="lbl">Toplam Araç</div>
+                                </div>
+                                <div class="featured-metric">
+                                    <div class="val">8.443</div>
+                                    <div class="lbl">Operasyonda</div>
+                                </div>
+                                <div class="featured-metric">
+                                    <div class="val">2.883</div>
+                                    <div class="lbl">Kiralık Araç</div>
+                                </div>
+                                <div class="featured-metric">
+                                    <div class="val">117</div>
+                                    <div class="lbl">Personel Aracı</div>
+                                </div>
+                                <div class="featured-metric">
+                                    <div class="val">147</div>
+                                    <div class="lbl">Sorunlu Araç</div>
+                                </div>
+                                <div class="featured-metric">
+                                    <div class="val">8.058</div>
+                                    <div class="lbl">Ort. Km</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="featured-link" href="https://prod-useast-b.online.tableau.com/#/site/emigros/views/FiloTakipDashbord/Dashboard1?:iid=1" target="_blank" rel="noopener">
+                            &#8599; Tableau'da Görüntüle
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="report-item">
                 <div class="report-title">Yakıt Analizi</div>
