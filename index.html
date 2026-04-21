@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paket Taxi - Operasyonel Ürün Raporları</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FFB703;
+            --secondary: #1A1A1A;
+            --accent: #FF6B35;
+            --white: #FFFFFF;
+            --gray: #6B7280;
+            --light: #F5F5F5;
+            --border: #E5E7EB;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #F5F5F5 0%, #E8E8E8 100%);
+            color: var(--secondary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header/Navigation */
+        header {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo-section:hover {
+            opacity: 0.8;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .logo-text p {
+            font-size: 11px;
+            color: var(--primary);
+            margin: 0;
+            font-weight: 600;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary) 0%, #000000 100%);
+            color: var(--white);
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 183, 3, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite reverse;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero .subtitle {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 600;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero .divider {
+            width: 120px;
+            height: 5px;
+            background: var(--primary);
+            margin: 20px auto;
+            border-radius: 3px;
+            animation: scaleX 0.6s ease-out 0.6s both;
+        }
+
+        .hero .tagline {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 12px;
+            animation: slideUp 0.8s ease-out 0.5s both;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 60px 40px;
+            animation: fadeIn 0.8s ease-out 0.8s both;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-number {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--secondary);
+            margin: 60px 40px 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+            animation: slideUp 0.8s ease-out both;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        /* Reports Section */
+        .reports-section {
+            margin: 0 40px 60px;
+            animation: slideUp 0.8s ease-out both;
+        }
+
+        .report-category {
+            margin-bottom: 50px;
+        }
+
+        .category-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin: 40px 0 20px;
+            padding: 12px 16px;
+            background: linear-gradient(90deg, var(--primary)20, transparent);
+            border-left: 5px solid var(--primary);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .report-item {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .report-item:hover {
+            border-color: var(--accent);
+            border-left-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .report-desc {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: linear-gradient(135deg, var(--secondary) 0%, #000000 100%);
+            color: var(--white);
+            margin: 60px 40px;
+            padding: 50px 40px;
+            border-radius: 12px;
+            animation: slideUp 0.8s ease-out both;
+        }
+
+        .benefits h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            color: var(--primary);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .benefit {
+            padding: 24px;
+            background: rgba(255, 183, 3, 0.08);
+            border: 2px solid rgba(255, 183, 3, 0.2);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit:hover {
+            background: rgba(255, 183, 3, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .benefit-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .benefit-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: var(--white);
+            text-align: center;
+            padding: 40px;
+            font-size: 13px;
+            margin-top: 60px;
+            border-top: 3px solid var(--primary);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleX {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            nav {
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav a {
+                margin-left: 0;
+            }
+
+            .hero {
+                padding: 50px 20px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero .subtitle {
+                font-size: 18px;
+            }
+
+            .stats, .reports-section, .benefits {
+                margin: 40px 20px;
+            }
+
+            .section-title {
+                font-size: 28px;
+                margin: 40px 20px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-section" onclick="location.href='#top'">
+        <div class="logo-text">
+            <h1>Paket Taxi</h1>
+            <p>OPERASYONEL RAPORLAR</p>
+        </div>
+    </div>
+    <nav>
+        <a href="#reports">Raporlar</a>
+        <a href="#benefits">Faydalar</a>
+        <a href="#contact">İletişim</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Paket Taxi</h1>
+        <div class="subtitle">Operasyonel Ürün Raporları</div>
+        <div class="divider"></div>
+        <div class="tagline">Kapsamlı Analizler • Gerçek Zamanlı İzleme • Operasyonel Optimizasyon</div>
+    </div>
+</section>
+
+<div class="stats">
+    <div class="stat-card">
+        <div class="stat-number">25+</div>
+        <div class="stat-label">Etkileşimli Dashboard</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Operasyon Modülü</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Entegre Veri</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">⚡</div>
+        <div class="stat-label">Gerçek Zaman</div>
+    </div>
+</div>
+
+<h2 class="section-title" id="reports">Tüm Raporlar</h2>
+
+<div class="reports-section">
+    
+    <div class="report-category">
+        <h3 class="category-title">LAST MILE - KURYE</h3>
+        <div class="reports-grid">
+            <div class="report-item">
+                <div class="report-title">Birden Fazla Küryeliği Olan Kişiler</div>
+                <div class="report-desc">Birden fazla aktif küryeliği olan kişileri ilişkilendirip, şube bazında aktif küryelik sayımı detayı ile sunar.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Dönem İçi Aktif Küryelikler/Şubeler</div>
+                <div class="report-desc">Dönem içinde aktif olan küryeleri şube bilgileri, veri işleme kodu ve bağlı oldukları bölge yönetim ile birlikte sunar.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Hakediş Raporu</div>
+                <div class="report-desc">Seçilen tarih aralığında küryelerin çalışma sürelerini (aktif, normal ve ek mesai) detayı ile sunarak hakediş hesaplamasına temel oluşturur.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">PT - Kurye İşe Giriş Çıkış Dashboard</div>
+                <div class="report-desc">Küryelerin iş giriş ve çıkış saatlerini şehir, ilçe, operasyon ve şube bazında detaylı olarak sunar.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Kurye Durum Dashboard</div>
+                <div class="report-desc">Küryelerin aktif, boşta, aday ve pasif durum dağılımını, giriş çıkış hareketlerini ve zaman detaylarını sunar.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Kurye Performans Raporu</div>
+                <div class="report-desc">Raporda, kurye bazlı sipariş sayıları, adreste geçen süre, atama ve dönüş sürelerini içeren teslimat performans metrikleri yer alır.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">THE KURYE Genel Metrikler</div>
+                <div class="report-desc">The Kurye operasyonuna ait sipariş performansını, ETA'ya göre teslimat oranlarını, iptal oranı ve sipariş hacmini gösterir.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">THE KURYE Şikayet Raporu</div>
+                <div class="report-desc">The Kurye operasyonuna ait şikayetleri mağaza, bölge ve şikayet kategorisine göre detaylandırarak analiz eder.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-category">
+        <h3 class="category-title">MÜŞTERİ</h3>
+        <div class="reports-grid">
+            <div class="report-item">
+                <div class="report-title">Kızılay Dashboard</div>
+                <div class="report-desc">Seçilen tarih aralığında operasyon bazlı sipariş sayılarının (atanması bekleyen, yüklendi, adreste ve tamamlandı) görsel olarak izlenmesini sağlar.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Turkcell Dashboard</div>
+                <div class="report-desc">Mağaza ve kurye operasyonlarına ait sipariş hacmi, iptal ve teslim edilemeyen sipariş ile atama oranları gösterilir.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Turkcell Mutabakat Raporu</div>
+                <div class="report-desc">Mağaza ve platform operasyonları arasında mutabakatı sağlamak için detayları karşılaştırır.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Channel Dashboard</div>
+                <div class="report-desc">Seçilen tarih aralığında kanal bazlı sipariş performansını, mağaza ve sipariş hacmi, atama oranları gösterilir.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Channel Mutabakat Dashboard</div>
+                <div class="report-desc">Kanal bazında Migros ve platform organizasyonunun mutabakatını sağlayan sipariş detaylarını karşılaştırır.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Müşteri ve Operasyonel Yönetim Dashboard</div>
+                <div class="report-desc">Müşteri ve operasyonel yapıyı yönetme alanını analiz ederek müşteri durumu ve coğrafi dağılımı gösterir.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Satış Dashboard</div>
+                <div class="report-desc">Satış süreçlerini teklif durumuna göre izleyip, satış pipeline'nın genel dağılımını sunar.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-category">
+        <h3 class="category-title">FİLO</h3>
+        <div class="reports-grid">
+            <div class="report-item">
+                <div class="report-title">Satış Evrakı Yüklenmeyenler</div>
+                <div class="report-desc">Kurye araçlarına ait satış evrakı yükleme durumlarını takip ederek eksik olanları belirtir.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Yakıt Tüketim Analizi</div>
+                <div class="report-desc">Yakıt alım süreçlerini, maliyet ve anomali durumlarını analiz ederek operasyonel verimliliğin izlenmesini sağlar.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Filo Dashboard</div>
+                <div class="report-desc">Kurye araç filosuna ait aktif/pasif araçların, hasar olanların ve sahiplerinin durumunu gösterir.</div>
+            </div>
+            <div class="report-item">
+                <div class="report-title">Yakıt Analizi</div>
+                <div class="report-desc">Araç bazlı yakıt tüketimini, maliyet ve anomali durumlarını detaylı olarak analiz ederek raporlar.</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<section class="benefits" id="benefits">
+    <h2>Stratejik Değer</h2>
+    <div class="benefits-grid">
+        <div class="benefit">
+            <div class="benefit-title">Veri Odaklı Kararlar</div>
+            <div class="benefit-desc">Tüm operasyonel seviyelerde veri tarafından desteklenen karar alma</div>
+        </div>
+        <div class="benefit">
+            <div class="benefit-title">İşletme Görünürlüğü</div>
+            <div class="benefit-desc">Teslimat, filo ve kurye performansına yönelik geliştirilmiş görünürlük</div>
+        </div>
+        <div class="benefit">
+            <div class="benefit-title">Hızlı Problem Çözümü</div>
+            <div class="benefit-desc">Sorunları hızla belirleyip çözüme doğru adımlar atma</div>
+        </div>
+        <div class="benefit">
+            <div class="benefit-title">Maliyet Optimizasyonu</div>
+            <div class="benefit-desc">Daha iyi kaynak tahsisi ve operasyonel maliyet düşürme</div>
+        </div>
+        <div class="benefit">
+            <div class="benefit-title">Müşteri Tatmini</div>
+            <div class="benefit-desc">Kalite izleme yoluyla müşteri memnuniyeti artırma</div>
+        </div>
+        <div class="benefit">
+            <div class="benefit-title">Rekabetçi Avantaj</div>
+            <div class="benefit-desc">Veri tabanlı stratejiler ile pazar rekabetinde öne çıkma</div>
+        </div>
+    </div>
+</section>
+
+<footer id="contact">
+    <p style="margin-bottom: 16px; font-size: 16px;"><strong>Paket Taxi - Operasyonel Ürün Raporları</strong></p>
+    <p style="margin-bottom: 12px;">İletişim: <a href="mailto:emrah.polat@migrosonline.com">emrah.polat@migrosonline.com</a></p>
+    <p style="margin-top: 20px; opacity: 0.7; font-size: 12px;">© 2026 Paket Taxi | Tüm hakları saklıdır.</p>
+</footer>
+
+</body>
+</html>
